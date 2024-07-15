@@ -1,7 +1,7 @@
 # Finace-Tracker-
 The key features of this software are:
 
-Add expenses: Users can input their expenses by providing the date (in YYYY-MM-DD format), expense category, and the amount spent. The application stores this information in a text file named "expenses.txt" for future reference.
+Add expenses: Users can input their expenses by providing the date (in MM-DD-YYYY format), expense category, and the amount spent. The application stores this information in a text file named "expenses.txt" for future reference.
 View Expenses: The Expense Tracker displays all recorded expenses in a tabular format. It presents details such as the date, expense category, and amount, along with a total expense calculated from the accumulated amounts.
 Delete Expenses: Users can delete any unwanted expense from the list by selecting the corresponding entry and clicking the "Delete Expense" button. 
 User-Friendly Interface: Making it easy for users to interact with the application. The input fields and buttons are well-labeled, guiding users through the expense management process.
