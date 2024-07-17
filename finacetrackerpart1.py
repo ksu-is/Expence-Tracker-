@@ -89,3 +89,30 @@ def adjust_expense():
         adjust_amount_entry = tk.Entry(adjust_window)
         adjust_amount_entry.grid(row=2, column=1, padx=5, pady=5, sticky="w")
         adjust_amount_entry.insert(0, amount)
+
+        # Adjustment button code 
+        def save_adjustment():
+            new_date, new_category, new_amount = adjust_date_entry.get(), adjust_category_entry.get(), adjust_amount_entry.get()
+            if new_date and new_category and new_amount:
+                try:
+                    month, day, year = map(int, new_date.split('-'))
+                    formatted_new_date = f"{month:02d}-{day:02d}-{year}"
+                    new_amount = float(new_amount)
+                except ValueError:
+                    adjust_status_label.config(text="Please enter a valid date or amount!", fg="red")
+                    return
+
+                with open("expenses.txt", "r") as file:
+                    lines = file.readlines()
+                with open("expenses.txt", "w") as file:
+                    for line in lines:
+                        if line.strip() == f"{date},{category},{amount}":
+                            file.write(f"{formatted_new_date},{new_category},{new_amount}\n")
+                        else:
+                            file.write(line)
+
+                status_label.config(text="Expense adjusted successfully!", fg="green")
+                adjust_window.destroy()
+                display_expenses()
+            else:
+                status_label.config(text="Please fill all the fields!", fg="red")
