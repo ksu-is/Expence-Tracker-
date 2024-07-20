@@ -1,8 +1,10 @@
+# import os module file and operating system related functions 
 import os
-import sys
+# import the platform module to detect os
 import platform 
-import subprocess
+# Import tkinter module for creating GUI application
 import tkinter as tk
+# import ttk from tkinter for widgets 
 from tkinter import ttk
 
 LIMITS = [
@@ -11,36 +13,45 @@ LIMITS = [
     (20, "#556b2f"),   # Dark olive green for expenses between $20 and $50
 ]
 
+# Function to add an expense 
 def add_expense():
     date, category, amount = date_entry.get(), category_entry.get(), amount_entry.get()
+    # to check if all required fields are filled 
     if date and category and amount:
         try:
+            # formate to eneter date and amount 
             month, day, year = map(int, date.split('-'))
             formatted_date = f"{month:02d}-{day:02d}-{year}"
             amount = float(amount)
         except ValueError:
+            # let user know if theres an error in value
             status_label.config(text="Please enter a valid date or amount!", fg="red")
             return
-
+           # writes expense to text file 
         with open("expenses.txt", "a") as file:
             file.write(f"{formatted_date},{category},{amount}\n")
+            # indicates. lets user know change is saved 
         status_label.config(text="Expense added successfully!", fg="green")
+        # deletes the enter 
         date_entry.delete(0, tk.END)
         category_entry.delete(0, tk.END)
         amount_entry.delete(0, tk.END)
+        # refreshes dispay 
         display_expenses()
     else:
+        # error msg if any fiels are empty 
         status_label.config(text="Please fill all the fields!", fg="red")
-
+# function to determine change of color by amount 
 def get_tag_for_amount(amount):
     for limit, color in LIMITS:
         if amount > limit:
             return color
     return ""
-
+# function to display all expenses 
 def display_expenses():
     if os.path.exists("expenses.txt"):
         total_expense = 0
+        
         expenses_tree.delete(*expenses_tree.get_children())
         with open("expenses.txt", "r") as file:
             for line in file:
