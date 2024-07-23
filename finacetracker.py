@@ -64,6 +64,7 @@ def display_expenses():
     else:
         total_label.config(text="No expenses recorded.")
 
+# Function to open the expenses file with the default text editor
 def open_expenses_file():
     if os.path.exists("expenses.txt"):
         current_os = platform.system()
@@ -74,9 +75,11 @@ def open_expenses_file():
         elif current_os == "Linux":
             os.system(f'xdg-open "expenses.txt"')
 
+# Function to close the application
 def close_program():
     root.destroy()
 
+# Function to adjust an existing expense
 def adjust_expense():
     selected_item = expenses_tree.selection()
     if selected_item:
@@ -135,6 +138,7 @@ def adjust_expense():
     else:
         status_label.config(text="Please select an expense to adjust!", fg="red")
 
+# Function to delete an existing expense
 def delete_expense():
     selected_item = expenses_tree.selection()
     if selected_item:
@@ -157,6 +161,7 @@ def delete_expense():
 root = tk.Tk()
 root.title("Expense Tracker")
 
+# Create input fields for adding expenses
 tk.Label(root, text="Date (MM-DD-YYYY):").grid(row=0, column=0, padx=5, pady=5, sticky="e")
 date_entry = tk.Entry(root)
 date_entry.grid(row=0, column=1, padx=5, pady=5, sticky="w")
@@ -169,6 +174,7 @@ tk.Label(root, text="Amount:").grid(row=2, column=0, padx=5, pady=5, sticky="e")
 amount_entry = tk.Entry(root)
 amount_entry.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
+# Create buttons for adding, viewing, adjusting, and deleting expenses
 tk.Button(root, text="Add Expense", command=add_expense).grid(row=3, column=0, columnspan=2, padx=5, pady=10)
 
 columns = ("Date", "Category", "Amount")
@@ -187,14 +193,18 @@ total_label.grid(row=5, column=0, columnspan=3, padx=5, pady=5)
 status_label = tk.Label(root, text="", fg="green")
 status_label.grid(row=6, column=0, columnspan=3, padx=5, pady=5)
 
+# Create buttons for viewing, adjusting, and deleting expenses
 tk.Button(root, text="View Expenses", command=open_expenses_file).grid(row=7, column=0, padx=5, pady=10)
 tk.Button(root, text="Adjust Expense", command=adjust_expense).grid(row=7, column=1, padx=5, pady=10)
 tk.Button(root, text="Delete Expense", command=delete_expense).grid(row=7, column=2, padx=5, pady=10)
 tk.Button(root, text="Close", command=close_program).grid(row=8, column=0, columnspan=3, padx=5, pady=10)
 
+# Create the expenses file if it doesn't exist
 if not os.path.exists("expenses.txt"):
     with open("expenses.txt", "w"):
         pass
-
+    
+# Display expenses on startup
 display_expenses()
+# Run the main event loop
 root.mainloop()
